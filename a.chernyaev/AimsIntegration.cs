@@ -11,7 +11,6 @@ class Script
     public static void Main(Comindware.Process.Api.Data.ScriptContext context, Comindware.Entities entities)
     {
         string path = @"C:\report\CTPcopy.csv";
-        string pathTest = @"C:\report\testAims.txt";
         string text;
         using (StreamReader sr = new System.IO.StreamReader(path))
         {
@@ -22,20 +21,10 @@ class Script
         DateTime startDate = DateTime.MaxValue;
         DateTime finishDate = DateTime.MinValue;
 
-        using (var sw = new System.IO.StreamWriter(pathTest))
-        {
             foreach (var line in text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
             {
                 var column = line.Split(';');
-                if (column.Length < 13)
-                {
-                    sw.WriteLine("column.Length < 13");
-                    continue;
-                }
                 DateTime current_session_start_date;
-
-                sw.WriteLine(column[0]);
-                sw.WriteLine(column[0].Trim());
                 //DateTime.TryParse(column[0].Trim(), out current_session_start_date);
 
                 //var provider = CultureInfo.InvariantCulture;
@@ -44,22 +33,11 @@ class Script
                 var format = "dd.MM.yyyy HH:mm:ss";
 
                 current_session_start_date = DateTime.ParseExact(column[0], format, provider);
-                //sw.WriteLine(result);
-
-                sw.WriteLine(current_session_start_date);
-
                 current_session_start_date = TimeZoneInfo.ConvertTime(current_session_start_date, TimeZoneInfo.Utc, TimeZoneInfo.Local);
-
-                sw.WriteLine(current_session_start_date);
-
-                
-
                 DateTime current_session_finish_date;
                 //DateTime.TryParse(column[1].Trim(), out current_session_finish_date);
                 current_session_finish_date = DateTime.ParseExact(column[1].Trim(), format, provider);
                 current_session_finish_date = TimeZoneInfo.ConvertTime(current_session_finish_date, TimeZoneInfo.Utc, TimeZoneInfo.Local);
-
-                sw.WriteLine(current_session_finish_date);
 
                 sessionFile.Add(new Session()
                 {
@@ -363,7 +341,7 @@ class Script
                     }
                 }
             }
-        }
+        
     }
 
     public class Session
