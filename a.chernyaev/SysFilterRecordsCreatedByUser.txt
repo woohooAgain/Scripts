@@ -1,0 +1,15 @@
+@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+{
+  #получение ШЗ с нужным alias'ом
+  ?app object:alias "t2".
+
+  # текущий пользователь
+  cmw:securityContext cmw:currentUser ?user.
+
+  # объекты, которые находятся в ШЗ ?app
+  ?item cmw:container ?app.
+
+  # фильтр по пользователю
+  ?item cmw:creator ?user.
+}
